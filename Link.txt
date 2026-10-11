@@ -1,0 +1,4 @@
+sudo apt install tigervnc-viewer
+Or
+http://localhost:6080/vnc.html
+changeme
