@@ -1,5 +1,9 @@
-FROM ubuntu:24.04
+FROM nvidia/cuda:12.6.3-runtime-ubuntu24.04
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Expose the GPU driver capabilities to the container's internal display server
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=all,graphics,utility
 
 # Install in smaller steps so successful downloads are cached between attempts
 RUN apt update && apt install -y --no-install-recommends \
@@ -7,7 +11,7 @@ RUN apt update && apt install -y --no-install-recommends \
       fonts-dejavu-core hicolor-icon-theme adwaita-icon-theme xubuntu-desktop \
       tigervnc-standalone-server tigervnc-common tigervnc-tools xauth novnc websockify
 
-# Ubuntu 24.04 images already include a user "ubuntu" (UID 1000)
+# Ubuntu base configuration continues below...
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu
 
 USER ubuntu
